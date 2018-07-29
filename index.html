@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <style>
+    html {
+      background-color: black !important;
+      color: white !important;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      opacity: 0;
+    }
+
+
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 10px;
+
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+
+    .columns {
+      background-color: black !important;
+    }
+
+    .message-body {
+      height: 425px
+    }
+
+    p {
+      color: white;
+      display: inline-block;
+    }
+
+    .phantom {
+      opacity: 0.4;
+    }
+
+    .phantom:hover {
+      opacity: 1;
+      color: white;
+    }
+
+    .output {
+      margin-bottom: 5px;
+    }
+
+    .output:hover {
+      background-color: darkslategray;
+      color: white !important;
+    }
+  </style>
+  <title>html terminals!!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
+
+  <script src="/socket.io/socket.io.js"></script>
+
+  <script>
+
+    let genMessage = (arr, color, origin) => {
+      let tag = $('<div class="output ${color}"></div>');
+      for (let i = 0; i < arr.length; i++) {
+        const currentMsg = arr[i];
+        if (i !== arr.length - 1) tag.append($(`<p>${currentMsg}</p><br/>`))
+        else if (i === arr.length - 1) tag.append($(`<p>${currentMsg}</p><p class="phantom" style="float: right;">${origin}</p>`))
+      }
+      $(`.${color}`).prepend(tag)
+    }
+    let divCreated = {
+      red: false,
+      green: false,
+      yellow: false,
+      blue: false,
+      magenta: false,
+      cyan: false,
+      white: false,
+      counter: 0,
+    };
+
+    let createTerminal = (color, dir) => {
+      let columns;
+      if (divCreated.counter % 2 === 0) columns = $('.first')
+      else columns = $('.second')
+      divCreated.counter++;
+      divCreated[color] = true;
+      columns.append($(`<div class="column ${color}Column ">
+        <article class="message">
+            <div class="message-header" style="background-color: ${color};">
+              <p style="color: black" class="${color}Title">${dir}</p> 
+            </div>
+            <div class="message-body ${color}" style="background-color: black; overflow: auto">
+              </div>
+          </article>
+    </div>`))
+    }
+    var socket = io();
+    socket.on('blue', function (msg) {
+      if (!divCreated['blue']) createTerminal('blue', msg.dir)
+      genMessage(msg.log, 'blue', msg.origin);
+      console.log(msg)
+    });
+    socket.on('red', function (msg) {
+      console.log(msg);
+      if (!divCreated['red']) createTerminal('red', msg.dir)
+      genMessage(msg.log, 'red', msg.origin);
+    });
+    socket.on('yellow', function (msg) {
+      console.log(msg)
+      if (!divCreated['yellow']) createTerminal('yellow', msg.dir)
+      genMessage(msg.log, 'yellow', msg.origin);
+
+    });
+    socket.on('white', function (msg) {
+      console.log(msg);
+      if (!divCreated['white']) createTerminal('white', msg.dir)
+      genMessage(msg.log, 'white', msg.origin);
+
+    });
+
+    socket.on('cyan', function (msg) {
+      console.log(msg)
+      if (!divCreated['cyan']) createTerminal('cyan', msg.dir)
+      genMessage(msg.log, 'cyan', msg.origin);
+
+    });
+
+    socket.on('magenta', function (msg) {
+      console.log(msg)
+      if (!divCreated['magenta']) createTerminal('magenta', msg.dir)
+      genMessage(msg.log, 'magenta', msg.origin);
+
+    });
+
+    socket.on('green', function (msg) {
+      console.log(msg)
+      if (!divCreated['green']) createTerminal('green', msg.dir)
+      genMessage(msg.log, 'green', msg.origin);
+    });
+  </script>
+
+</head>
+
+<body>
+  <h1 class="title is-1" style="color:white">live l33t hacker view</h1>
+  <div class="columns">
+    <div class="column first">
+    </div>
+    <div class="column second">
+    </div>
+  </div>
+</body>
+
+</html>
