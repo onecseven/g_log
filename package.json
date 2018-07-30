@@ -1,5 +1,5 @@
 {
-  "name": "onecseven/g_log",
+  "name": "@onecseven/g_log",
   "version": "0.0.1",
   "description": "g's logging function",
   "main": "g_log.js",
