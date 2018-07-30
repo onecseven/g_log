@@ -7,8 +7,12 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "live": "node watch.js"
   },
-  "author": "guillermo adrian",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/onecseven/g_log.git"
+  },
+  "author": "guillermo adrian gjadriant@gmail.com",
+  "license": "MIT",
   "dependencies": {
     "colors": "^1.3.1",
     "express": "^4.16.3",
