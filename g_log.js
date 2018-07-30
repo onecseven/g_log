@@ -68,7 +68,7 @@ var log = async function(...output) {
   }
   let currentColor = colorConf[String(dirPath)];
   if (currentColor === undefined) {
-    helpers.assignColor(colorConfPath, dirPath) //new folder
+    await helpers.assignColor(colorConfPath, dirPath) //new folder
     var colorConf = await helpers.openColorConf(colorConfPath, root)
     currentColor = colorConf[String(dirPath)];
   } 
